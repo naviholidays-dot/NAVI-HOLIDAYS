@@ -366,6 +366,9 @@ header{
     transition:.5s;
 }
 
+.destination[role="button"]{cursor:pointer;}
+.destination[role="button"]:focus-visible{outline:4px solid #d5a544;outline-offset:3px;}
+.destination[role="button"]::after{content:"View package details →";position:absolute;bottom:76px;left:22px;font-size:13px;font-weight:700;color:#fff;}
 .destination:hover img{
     transform:scale(1.08);
 }
@@ -846,6 +849,22 @@ footer li{
         grid-template-columns:1fr;
     }
 }
+
+/* Destination package details */
+.package-backdrop[hidden]{display:none;}
+.package-backdrop{position:fixed;inset:0;z-index:9999;background:rgba(9,22,38,.78);display:flex;justify-content:center;align-items:center;padding:20px;}
+.package-dialog{position:relative;background:#fff;color:#172033;border-radius:20px;padding:30px;max-width:760px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 25px 90px rgba(0,0,0,.3);}
+.package-dialog h2{font-size:30px;margin:8px 0 12px;}
+.package-dialog h3{font-size:18px;margin:20px 0 10px;}
+.package-dialog li{margin:7px 0;line-height:1.5;}
+.package-dialog p{line-height:1.6;}
+.package-eyebrow{font-size:12px;font-weight:800;letter-spacing:1px;color:#087c7a;}
+.package-close{position:absolute;top:15px;right:15px;background:#edf2f4;border:0;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;}
+.package-columns{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.package-note{background:#f4f7f8;padding:13px;border-radius:10px;font-size:13px;margin:20px 0;}
+.package-dialog .primary-btn{display:inline-block;text-decoration:none;}
+@media(max-width:600px){.package-dialog{padding:22px 18px;}.package-dialog h2{font-size:24px;}.package-columns{grid-template-columns:1fr;gap:0;}}
+.deal-package-btn{border:0;cursor:pointer;font:inherit;}
 </style>
 </head>
 
@@ -1012,7 +1031,7 @@ that are perfect for your next holiday.
 
 <div class="destination-grid">
 
-<div class="destination">
+<div class="destination" role="button" tabindex="0" data-package="bali" aria-label="View Bali package details">
 <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80">
 <div class="destination-overlay"></div>
 <div class="destination-info">
@@ -1021,7 +1040,7 @@ that are perfect for your next holiday.
 </div>
 </div>
 
-<div class="destination">
+<div class="destination" role="button" tabindex="0" data-package="singapore" aria-label="View Singapore package details">
 <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=900&q=80">
 <div class="destination-overlay"></div>
 <div class="destination-info">
@@ -1030,7 +1049,7 @@ that are perfect for your next holiday.
 </div>
 </div>
 
-<div class="destination">
+<div class="destination" role="button" tabindex="0" data-package="thailand" aria-label="View Thailand package details">
 <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80">
 <div class="destination-overlay"></div>
 <div class="destination-info">
@@ -1039,7 +1058,7 @@ that are perfect for your next holiday.
 </div>
 </div>
 
-<div class="destination">
+<div class="destination" role="button" tabindex="0" data-package="vietnam" aria-label="View Vietnam package details">
 <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=900&q=80">
 <div class="destination-overlay"></div>
 <div class="destination-info">
@@ -1055,6 +1074,22 @@ that are perfect for your next holiday.
 </section>
 
 
+<div class="package-backdrop" id="packageBackdrop" hidden>
+<div class="package-dialog" role="dialog" aria-modal="true" aria-labelledby="packageTitle">
+<button type="button" class="package-close" id="packageClose" aria-label="Close package details">✕</button>
+<div class="package-eyebrow">NAVI HOLIDAYS · SAMPLE ITINERARY</div>
+<h2 id="packageTitle"></h2>
+<p id="packageIntro"></p>
+<h3>Suggested day-wise itinerary</h3>
+<ol id="packageDays"></ol>
+<div class="package-columns">
+<div><h3>Possible inclusions</h3><ul id="packageIncludes"></ul></div>
+<div><h3>Exclusions / to confirm</h3><ul id="packageExcludes"></ul></div>
+</div>
+<p class="package-note">This is an indicative travel plan, not a confirmed offer. Hotels, flights, sightseeing, transfers, meals, prices and availability will be confirmed in your personalised quotation.</p>
+<a id="packageEnquire" class="primary-btn" href="https://wa.me/919871727974" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp →</a>
+</div>
+</div>
 <!-- DOMESTIC HOLIDAY PACKAGES -->
 <section class="section" id="domestic">
 <div class="container">
@@ -1105,7 +1140,7 @@ Contact us for the latest availability and pricing.
 
 <div class="deal-bottom">
 <div class="price">Get Best Deal</div>
-<a href="#contact" class="view-btn">Enquire →</a>
+<button type="button" class="view-btn deal-package-btn" data-package="bali">View details →</button>
 </div>
 
 </div>
@@ -1125,7 +1160,7 @@ Contact us for the latest availability and pricing.
 
 <div class="deal-bottom">
 <div class="price">Get Best Deal</div>
-<a href="#contact" class="view-btn">Enquire →</a>
+<button type="button" class="view-btn deal-package-btn" data-package="singapore">View details →</button>
 </div>
 
 </div>
@@ -1145,7 +1180,7 @@ Contact us for the latest availability and pricing.
 
 <div class="deal-bottom">
 <div class="price">Get Best Deal</div>
-<a href="#contact" class="view-btn">Enquire →</a>
+<button type="button" class="view-btn deal-package-btn" data-package="thailand">View details →</button>
 </div>
 
 </div>
@@ -1487,6 +1522,34 @@ Flights • Hotels • Holidays • Cruises • Visa Assistance
 
 
 <script>
+
+const packageDetails = {
+ bali:{title:"Bali Holiday – 6 Nights / 7 Days",intro:"A suggested Bali holiday combining beach relaxation, cultural sightseeing and scenic day trips.",days:["Arrive in Bali; airport transfer and hotel check-in.","Explore Ubud and nearby cultural attractions.","Visit scenic viewpoints and popular temples.","Enjoy a leisure day or optional water activities.","Explore Bali's beaches and coastal attractions.","Free day for shopping, spa or optional excursions.","Hotel check-out and airport transfer."],includes:["Hotel accommodation as selected in quotation","Airport transfers if selected","Sightseeing and transport as per final itinerary"],excludes:["Flights unless explicitly quoted","Visa, travel insurance and personal expenses","Optional activities, entry fees and meals not specified"]},
+ singapore:{title:"Singapore Holiday – 4 Nights / 5 Days",intro:"A suggested Singapore city break featuring major attractions and time to explore.",days:["Arrive in Singapore and check in.","Explore the city; optional Night Safari.","Visit Universal Studios Singapore (optional).","Explore Sentosa and Marina Bay area.","Check out and transfer to airport."],includes:["Hotel accommodation as selected","Airport transfers if selected","Sightseeing as confirmed in quotation"],excludes:["Flights and visa unless quoted","Attraction tickets unless specified","Meals, personal expenses and optional activities"]},
+ thailand:{title:"Thailand Holiday – 5 Nights / 6 Days",intro:"A suggested Thailand getaway combining a beach destination with sightseeing and leisure.",days:["Arrive in Thailand and transfer to hotel.","Enjoy local sightseeing and leisure.","Optional island excursion, subject to weather.","Transfer to your next selected destination or hotel.","Free day for shopping and optional activities.","Check out and depart."],includes:["Hotels and transfers as selected","Tours as specified in final quotation","Travel planning assistance"],excludes:["Flights and visa unless quoted","Optional island tours and activities","Meals, national park fees and personal expenses unless specified"]},
+ vietnam:{title:"Vietnam Holiday – 4 Nights / 5 Days",intro:"A suggested Vietnam discovery trip with city sightseeing and a scenic excursion.",days:["Arrive in Vietnam and check in.","Explore local highlights and cultural sites.","Enjoy an optional scenic day excursion.","Free time for sightseeing, shopping or food experiences.","Check out and depart."],includes:["Hotel accommodation as selected","Transfers and tours if quoted","Itinerary planning support"],excludes:["Flights, visa and insurance unless quoted","Optional excursions and attraction fees","Meals and personal expenses unless specified"]}
+};
+const packageBackdrop=document.getElementById("packageBackdrop");
+const packageClose=document.getElementById("packageClose");
+let lastPackageTrigger=null;
+function renderPackageList(id,items){const el=document.getElementById(id);el.replaceChildren();items.forEach(function(item){const li=document.createElement("li");li.textContent=item;el.appendChild(li);});}
+function openPackage(key,trigger){
+ const p=packageDetails[key];if(!p)return;
+ lastPackageTrigger=trigger||null;
+ document.getElementById("packageTitle").textContent=p.title;
+ document.getElementById("packageIntro").textContent=p.intro;
+ renderPackageList("packageDays",p.days);renderPackageList("packageIncludes",p.includes);renderPackageList("packageExcludes",p.excludes);
+ document.getElementById("packageEnquire").href="https://wa.me/919871727974?text="+encodeURIComponent("Hello Navi Holidays, please share the latest quotation and full details for "+p.title+".");
+ packageBackdrop.hidden=false;document.body.style.overflow="hidden";packageClose.focus();
+}
+function closePackage(){packageBackdrop.hidden=true;document.body.style.overflow="";if(lastPackageTrigger)lastPackageTrigger.focus();}
+document.querySelectorAll("[data-package]").forEach(function(card){
+ card.addEventListener("click",function(){openPackage(card.dataset.package,card);});
+ card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();openPackage(card.dataset.package,card);}});
+});
+packageClose.addEventListener("click",closePackage);
+packageBackdrop.addEventListener("click",function(e){if(e.target===packageBackdrop)closePackage();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!packageBackdrop.hidden)closePackage();if(e.key==="Tab"&&!packageBackdrop.hidden){const focusable=packageBackdrop.querySelectorAll("button,a[href]");const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
 const menuToggle = document.getElementById("menuToggle");
 const primaryNav = document.getElementById("primaryNav");
