@@ -131,6 +131,7 @@ header{
     color:#394357;
     transition:.2s;
 }
+.menu-toggle{display:none;border:1px solid #e1e6ed;background:#fff;color:#172033;border-radius:9px;padding:9px 12px;font-size:20px;cursor:pointer;}
 
 .nav-links a:hover{
     color:#0b8e97;
@@ -741,9 +742,9 @@ footer li{
 
 @media(max-width:900px){
 
-    .nav-links{
-        display:none;
-    }
+    .menu-toggle{display:block;margin-left:auto;}
+    .nav-links{display:none;position:absolute;top:76px;left:0;right:0;padding:18px 4%;background:#fff;border-bottom:1px solid #e9edf3;box-shadow:0 12px 24px rgba(24,38,61,.10);flex-direction:column;align-items:flex-start;gap:16px;}
+    .nav-links.open{display:flex;}
 
     .form-grid{
         grid-template-columns:1fr 1fr;
@@ -778,6 +779,7 @@ footer li{
     .navbar{
         min-height:68px;
     }
+    .nav-links{top:68px;}
 
     .logo-text strong{
         font-size:16px;
@@ -862,7 +864,8 @@ footer li{
     </div>
 </a>
 
-<nav class="nav-links">
+<button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primaryNav">☰</button>
+<nav class="nav-links" id="primaryNav">
     <a href="#home">Home</a>
     <a href="#deals">Deals</a>
     <a href="#international">International</a>
@@ -889,7 +892,7 @@ footer li{
 
 <div class="hero-content">
 
-<div class="badge">✈️ Your Trusted Travel Partner</div>
+<div class="badge">✈️ Your Trusted Travel Agency in Delhi</div>
 
 <h1>
 Your next journey<br>
@@ -897,9 +900,9 @@ starts <span>here.</span>
 </h1>
 
 <p>
-Discover unforgettable holidays, international escapes,
-domestic getaways, flights, hotels, cruises and visa assistance —
-all from one trusted travel partner.
+Planning a holiday from Delhi? Navi Holidays in Paschim Vihar helps
+you arrange domestic and international tour packages, flights, hotels,
+cruises and visa assistance with personalised travel support.
 </p>
 
 <div class="hero-buttons">
@@ -1052,6 +1055,21 @@ that are perfect for your next holiday.
 </section>
 
 
+<!-- DOMESTIC HOLIDAY PACKAGES -->
+<section class="section" id="domestic">
+<div class="container">
+<div class="section-header">
+<div><h2>Domestic holiday packages across India</h2></div>
+<p>Plan family holidays, hill-station breaks, beach escapes and pilgrimage trips across India with Navi Holidays, Paschim Vihar, Delhi.</p>
+</div>
+<div class="services-grid">
+<div class="service"><h3>Hill station holidays</h3><p>Ask us about customised trips to popular mountain destinations in India.</p></div>
+<div class="service"><h3>Beach and leisure holidays</h3><p>Explore Indian beach destinations with suitable hotel and transport options.</p></div>
+<div class="service"><h3>Pilgrimage tours</h3><p>Plan religious journeys with itinerary and travel arrangements tailored to your dates.</p></div>
+</div>
+</div>
+</section>
+
 <!-- DEALS -->
 
 <section class="section deals" id="deals">
@@ -1139,6 +1157,21 @@ Contact us for the latest availability and pricing.
 
 </section>
 
+
+<!-- DELHI TRAVEL AGENCY CONTENT -->
+<section class="section" id="delhi-travel-agency">
+<div class="container">
+<div class="section-header">
+<div><h2>Travel agency in Paschim Vihar, Delhi</h2></div>
+<p>Navi Holidays is a Delhi-based travel agency helping individuals, couples, families and groups plan trips across India and abroad.</p>
+</div>
+<div class="services-grid">
+<div class="service"><h3>International holiday packages</h3><p>Plan overseas holidays with itinerary guidance, hotel stays, flights and visa assistance for your chosen destination.</p></div>
+<div class="service"><h3>Domestic tour packages</h3><p>Explore destinations across India with customised holidays, sightseeing plans, hotel options and transport arrangements.</p></div>
+<div class="service"><h3>Travel planning from West Delhi</h3><p>Visit Navi Holidays in Rama Market, Paschim Vihar, New Delhi, or contact our team by phone or WhatsApp to discuss your travel plans.</p></div>
+</div>
+</div>
+</section>
 
 <!-- SERVICES -->
 
@@ -1373,7 +1406,7 @@ Send Enquiry on WhatsApp
 
 <div class="logo">
 
-<div class="logo-mark">NH</div>
+<img src="IMG-20260923-WA0057.jpg" alt="Navi Holidays official logo" style="width:90px;height:auto;display:block;">
 
 <div class="logo-text">
 <strong style="color:white;">NAVI HOLIDAYS</strong>
@@ -1455,47 +1488,48 @@ Flights • Hotels • Holidays • Cruises • Visa Assistance
 
 <script>
 
+const menuToggle = document.getElementById("menuToggle");
+const primaryNav = document.getElementById("primaryNav");
+if (menuToggle && primaryNav) {
+    menuToggle.addEventListener("click", function () {
+        const isOpen = primaryNav.classList.toggle("open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+    primaryNav.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            primaryNav.classList.remove("open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Open navigation menu");
+            menuToggle.textContent = "☰";
+        });
+    });
+}
+
 function sendWhatsApp(){
 
-    const name = document.getElementById("name").value;
-    const destination = document.getElementById("destination").value;
+    const name = document.getElementById("name").value.trim();
+    const destination = document.getElementById("destination").value.trim();
     const date = document.getElementById("date").value;
-    const travellers = document.getElementById("travellers").value;
+    const travellers = document.getElementById("travellers").value.trim();
 
-    const message =
-    "Hello Navi Holidays,%0A%0A" +
-    "I would like to enquire about a holiday.%0A%0A" +
-    "Name: " + name + "%0A" +
-    "Destination: " + destination + "%0A" +
-    "Travel Date: " + date + "%0A" +
-    "Travellers: " + travellers;
-
-    window.open(
-        "https://wa.me/919871727974?text=" + message,
-        "_blank"
-    );
+    if (!name || !destination) { alert("Please enter your name and destination."); return; }
+    const message = new URLSearchParams({text:"Hello Navi Holidays,\n\nI would like to enquire about a holiday.\n\nName: "+name+"\nDestination: "+destination+"\nTravel Date: "+date+"\nTravellers: "+travellers});
+    window.open("https://wa.me/919871727974?"+message.toString(), "_blank", "noopener");
 }
 
 
 function sendFormWhatsApp(){
 
-    const name = document.getElementById("formName").value;
-    const destination = document.getElementById("formDestination").value;
-    const phone = document.getElementById("formPhone").value;
-    const message = document.getElementById("formMessage").value;
+    const name = document.getElementById("formName").value.trim();
+    const destination = document.getElementById("formDestination").value.trim();
+    const phone = document.getElementById("formPhone").value.trim();
+    const message = document.getElementById("formMessage").value.trim();
 
-    const whatsappMessage =
-    "Hello Navi Holidays,%0A%0A" +
-    "New Travel Enquiry%0A%0A" +
-    "Name: " + name + "%0A" +
-    "Destination: " + destination + "%0A" +
-    "Mobile: " + phone + "%0A" +
-    "Requirements: " + message;
-
-    window.open(
-        "https://wa.me/919871727974?text=" + whatsappMessage,
-        "_blank"
-    );
+    if (!name || !phone || !message) { alert("Please enter your name, mobile number and travel requirements."); return; }
+    const whatsappMessage = new URLSearchParams({text:"Hello Navi Holidays,\n\nNew Travel Enquiry\n\nName: "+name+"\nDestination: "+destination+"\nMobile: "+phone+"\nRequirements: "+message});
+    window.open("https://wa.me/919871727974?"+whatsappMessage.toString(), "_blank", "noopener");
 }
 
 </script>
